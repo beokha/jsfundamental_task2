@@ -1,5 +1,7 @@
 var config = {
-    entry: './src/client/js/main.js',
+    entry: {
+        'src/client/js': './src/client/js/main.js'
+    },
 
     output: {
         path:'/src/build/',

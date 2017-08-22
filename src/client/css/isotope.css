@@ -80,6 +80,8 @@
     padding: 10px;
     background: #888;
     color: #262524;
+
+    cursor: pointer;
 }
 
 .element-item > * {
@@ -114,4 +116,14 @@
     left: 10px;
     top: 76px;
     font-size: 12px;
+}
+
+.coder {
+    background: black;
+}
+.ui {
+    background-image: url("../content/UI.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
 }
