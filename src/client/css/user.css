@@ -1,0 +1,28 @@
+h1 {
+    color: RGB(28, 195, 124);
+}
+
+/*
+ Sumarry:
+    SKILLS adding block
+ */
+#div_skills_adding_box {
+    border: 1px solid RGB(28, 195, 124);
+    padding: 10px;
+}
+.skill_type {
+    margin: 10px;
+}
+.skill_type input {
+    padding: 3px 5px 3px 5px;
+    margin-left: 50px;
+    width: 50%;
+}
+.add_skill_button {
+    margin: 10px;
+    padding: 10px 15px 10px 15px;
+    color: white;
+    background: black;
+    border: 0px;
+    border-radius: 3px;
+}
