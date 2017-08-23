@@ -1,4 +1,5 @@
 "use strict";
+import main from './main';
 
 var firebasedb = (function () {
 // Initialize Firebase
@@ -13,28 +14,36 @@ var firebasedb = (function () {
     firebase.initializeApp(config);
 
     let obj = {};
-
     obj.getAllUsersData = function () {
         let result = [],
             isEnded = false;
 
         firebase.database().ref('users_data/').once('value').then(function (snapshot) {
-            let childData;
+            let childData,
+                index = 0;
 
             snapshot.forEach(function(childSnapshot) {
                 childData = childSnapshot.val();
-                result.push(childData);
+                main.render.renderIso(childData, index++);
             });
 
-        })//.then(function() {
-         //   return result;
-       // });
+        }).then(result => {
+            //console.log("All is good.");
+            //return main.render.renderIso;
+            //main.render.renderIso(result);
+/*            return function () {
+                console.log("In firebase function.")
+            }*/
+        }, error => {
+            //console.log("Bad.");
+            //return null;
+        });
 
+        //return main.render.renderIso;
         /*while(true) {
             if(isEnded)
                 break;
         }*/
-        return result;
     };
 
     return obj;
