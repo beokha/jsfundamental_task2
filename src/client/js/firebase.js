@@ -45,6 +45,11 @@ var firebasedb = (function () {
                 break;
         }*/
     };
+    
+    obj.addNewUserSkill = function (userId, skills) {
+
+        firebase.database().ref('users_data/' + userId + "/user_data/skills/").set(skills);
+    }
 
     return obj;
 })();

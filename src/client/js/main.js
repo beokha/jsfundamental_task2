@@ -23,7 +23,9 @@ document.addEventListener('DOMContentLoaded', function () {
         id = +src.dataset.id;
         users = obj.users;
 
-        localStorage.setItem("choosenUser", JSON.stringify(users[id]));
+        localStorage.clear();
+        localStorage.setItem("chosenUserIdLS", JSON.stringify(id));
+        localStorage.setItem("chosenUserLS", JSON.stringify(users[id]));
         document.location.href = "./user.html";
     })
 });
@@ -38,22 +40,19 @@ obj.render.renderIso = function (user, index) {
     function RenderUserDOM(user, index) {
 
         let grid = document.getElementsByClassName('grid')[0],
-            frag = document.createDocumentFragment();
+            frag = document.createDocumentFragment(),
+            div = document.createElement('div'),
+            h3 = document.createElement('h3'),
+            node = document.createTextNode(user.first_name + " " + user.last_name);
 
-        //usersArray.forEach((user, index) => {
-            let div = document.createElement('div'),
-                h3 = document.createElement('h3'),
-                node = document.createTextNode(user.first_name + " " + user.last_name);
+        div.className = (user.position === "Coder") ? "element-item coder " : "element-item ui ";
+        div.setAttribute('data-id', index);
+        h3.className = "name";
 
-            div.className = (user.position === "Coder") ? "element-item coder " : "element-item ui ";
-            div.setAttribute('data-id', +index);
-            h3.className = "name";
+        h3.appendChild(node);
+        div.appendChild(h3);
 
-            h3.appendChild(node);
-            div.appendChild(h3);
-
-            frag.appendChild(div);
-        //});
+        frag.appendChild(div);
 
         grid.appendChild(frag);
         addIsotopeLogic.initIsotope();

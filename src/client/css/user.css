@@ -84,13 +84,31 @@ h1 {
  */
 .educations_block {
     margin-top: 5%;
+    margin-bottom: 5%;
     }
 .education {
-
+    margin-bottom: 1%;
+    }
+.education > * {
+    position: relative;
+    display: inline-block;
+    padding: 0;
+    margin: 0;
     }
 .left_education_block {
-
+    position: absolute;
+    left: 2%;
+    font-weight: bolder;
     }
 .right_education_block {
-
+    margin-left: 5%;
+    padding: 1%;
+    border-radius: 1%;
+    background: lightgray;
+    width: 80%;
+    max-height: 100px;
+    overflow-y: auto;
+    }
+.right_education_block__header {
+    font-weight: bolder;
     }

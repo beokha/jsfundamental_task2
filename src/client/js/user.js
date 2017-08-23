@@ -1,3 +1,6 @@
+"use strict";
+import db from './firebase.js';
+
 document.addEventListener('DOMContentLoaded', function() {
 
 
@@ -6,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
         educations_block = document.getElementsByClassName('educations_block')[0],
         educations_frag = document.createDocumentFragment(),
         // Data
-        chosenUser = JSON.parse(localStorage.choosenUser),
+        chosenUser = JSON.parse(localStorage.chosenUserLS),
         user_data = chosenUser.user_data,
         skills = user_data.skills,
         educations = user_data.education;
@@ -31,6 +34,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     skills_block.appendChild(skill_frag);
 
+    // Sort education by year
+    educations = educations.sort(function (a, b) {
+        return a.date - b.date;
+    })
     // Add user's education
     educations.forEach((education) => {
 
@@ -55,6 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Right
         right_education_block.className = "right_education_block";
         // Add header
+        reb_header.className = "right_education_block__header"
         reb_header.appendChild(reb_header_node);
         right_education_block.appendChild(reb_header);
         // Add text
@@ -67,3 +75,71 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     educations_block.appendChild(educations_frag);
 });
+
+/*
+    Summary:
+        Add new skills
+ */
+(function () {
+    let button_add_skill = document.getElementsByClassName('button_add_skill')[0],
+        input_skill_name = document.getElementsByName('skill_name')[0],
+        input_skill_range = document.getElementsByName('skill_range')[0],
+        chosenUserID = localStorage.chosenUserIdLS,
+        skills = JSON.parse(localStorage.chosenUserLS).user_data.skills;
+
+    button_add_skill.addEventListener('click', clicked_button_add_skill);
+    function clicked_button_add_skill() {
+        const maxCharacters = 100,
+            maxSkillLevel = 100;
+
+        let skill_name = input_skill_name.value,
+            skill_level = input_skill_range.value;
+
+        // Delete prev error, if need
+        if(input_skill_name.classList.contains("error")) {
+            input_skill_name.classList.remove("error");
+        }
+        if(input_skill_range.classList.contains("error")) {
+            input_skill_range.classList.remove("error");
+        }
+        // CHECK: For error
+        if(skill_name.length > maxCharacters) {
+            input_skill_name.setAttribute("class", "error");
+            input_skill_name.focus();
+            input_skill_name.value = null;
+            return alert("Skill name shouldn't be more than 100 characters.")
+        }
+        if(skill_level > maxSkillLevel) {
+            input_skill_range.setAttribute("class", "error");
+            input_skill_range.focus();
+            input_skill_range.value = null;
+            return alert("Skill level shouldn't be more than 100%.")
+        }
+
+        // Bad practice: need to receive one obj, not a full array of objects
+        skills.push({
+            skill: skill_name,
+            level: skill_level
+        });
+        db.addNewUserSkill(chosenUserID, skills);
+
+        // TODO: Get response from db that all is OK and execute the next code
+        Temp(skill_name, skill_level);
+        function Temp(skill_name, skill_level) {
+            input_skill_name.value = null;
+            input_skill_range.value = null;
+
+            let div = document.createElement('div'),
+                p = document.createElement('p'),
+                node = document.createTextNode(skill_name);
+
+            div.className = 'skills_block__skill';
+            div.style.width = skill_level + "%";
+
+            p.appendChild(node);
+            div.appendChild(p);
+            document.getElementsByClassName('skills_block')[0].appendChild(div);
+        }
+
+    }
+})();
