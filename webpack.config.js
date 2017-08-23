@@ -1,11 +1,12 @@
 var config = {
     entry: {
-        'src/client/js': './src/client/js/main.js'
+        'index': './src/client/js/main.js',
+        'user': './src/client/js/user.js'
     },
 
     output: {
-        path:'/src/build/',
-        filename: 'index.js',
+        path: __dirname + "/src/build/",
+        filename: '[name].js',
     },
 
     devServer: {
