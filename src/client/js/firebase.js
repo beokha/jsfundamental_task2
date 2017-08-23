@@ -25,9 +25,10 @@ var firebasedb = (function () {
                 childData = childSnapshot.val();
                 result.push(childData);
             });
-        });//.then(function() {
-          //  isEnded = true;
-        //});
+
+        })//.then(function() {
+         //   return result;
+       // });
 
         /*while(true) {
             if(isEnded)

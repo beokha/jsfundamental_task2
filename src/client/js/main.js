@@ -5,9 +5,9 @@ import db from './firebase';
 
 (function () {
     let grid = document.getElementsByClassName('grid')[0],
-    allUsers = db.getAllUsersData();
+        allUsers = db.getAllUsersData();
 
-    //addIsotopeLogic();
+
     setTimeout(function() {
         RenderUserDOM(allUsers);
      }, 1000);
