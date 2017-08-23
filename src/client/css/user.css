@@ -1,28 +1,96 @@
 h1 {
     color: RGB(28, 195, 124);
-}
+    }
 
 /*
- Sumarry:
-    SKILLS adding block
+    Summary:
+        Skills adding block
  */
-#div_skills_adding_box {
+.skills_adding_block {
     border: 1px solid RGB(28, 195, 124);
     padding: 10px;
-}
-.skill_type {
+    }
+.skill_param {
     margin: 10px;
-}
-.skill_type input {
+    }
+.skill_param input {
     padding: 3px 5px 3px 5px;
     margin-left: 50px;
     width: 50%;
-}
-.add_skill_button {
+    }
+.button_add_skill {
     margin: 10px;
     padding: 10px 15px 10px 15px;
     color: white;
     background: black;
     border: 0px;
     border-radius: 3px;
-}
+    }
+
+/*
+    Summary:
+        Skills block
+ */
+.skills_block {
+
+    }
+.skills_block__skill {
+
+    padding: 1px 5px 1px 5px;
+    margin-bottom: 1%;
+    background-color: RGB(28, 195, 124);
+    border-radius: 3px;
+
+    color: white;
+    }
+.skills_block__skill:first-of-type {
+    margin-top: 15px;
+    }
+.skills_block__skill:last-of-type {
+    margin-bottom: 15px;
+    }
+
+/*
+    Summary: Skill level
+ */
+.skills_level_block {
+    position: relative;
+    width: 100%;
+    height: 2px;
+    background: gray;
+    }
+.skills_level {
+    position: absolute;
+    top: 5px;
+    color: gray;
+    font-size: small;
+    }
+.div_skills_level__beginner {
+    left: 0%;
+    }
+.div_skills_level__proficient {
+    left: 20%
+    }
+.div_skills_level__expert {
+    left: 70%;
+    }
+.div_skills_level__master {
+    left: 95%;
+    }
+
+/*
+    Summary:
+        Education block
+ */
+.educations_block {
+    margin-top: 5%;
+    }
+.education {
+
+    }
+.left_education_block {
+
+    }
+.right_education_block {
+
+    }

@@ -4,32 +4,44 @@
     <meta charset="UTF-8">
     <title>User</title>
 
+    <link href="src/client/css/site.css" rel="stylesheet" />
     <link href="src/client/css/user.css" rel="stylesheet" />
 </head>
 <body>
-    <h1>Skills</h1>
-    <div id="div_skills_adding_box">
-        <div class="skill_type skill_name">
-            <label>Skill name:</label>
-            <input name="skill_name" type="text" placeholder="Enter skill name" />
-        </div>
-        <div class="skill_type skill_range">
-            <label>Skill range:</label>
-            <input name="skill_range" type="number" min="1" max="100" placeholder="Enter skill range" />
+    <div class="body-content">
+
+        <h1>Skills</h1>
+
+    <!--Add\Change user's skill-->
+        <div class="skills_adding_block">
+            <div class="skill_param">
+                <label>Skill name:</label>
+                <input name="skill_name" type="text" placeholder="Enter skill name" />
+            </div>
+            <div class="skill_param">
+                <label>Skill range:</label>
+                <input name="skill_range" type="number" min="1" max="100" placeholder="Enter skill range" />
+            </div>
+
+            <button class="button_add_skill">
+                Add skill
+            </button>
         </div>
 
-        <button class="add_skill_button">
-            Add skill
-        </button>
-    </div>
+    <!--User's current skills-->
+        <section class="skills_block">
 
-    <div id="div_skills_box">
-        <div id="div_skills">
-
+        </section>
+        <div class="skills_level_block">
+            <span class="skills_level div_skills_level__beginner">Beginner</span>
+            <span class="skills_level div_skills_level__proficient">Proficient</span>
+            <span class="skills_level div_skills_level__expert">Expert</span>
+            <span class="skills_level div_skills_level__master">Master</span>
         </div>
-        <div id="div_skills_level">
 
-        </div>
+        <section class="educations_block">
+
+        </section>
     </div>
 
     <script src="user.js"></script>
