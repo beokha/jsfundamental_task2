@@ -8,6 +8,60 @@ body {
     padding-right: 15px;
     }
 
+/*
+    Summary:
+        Site's common style
+ */
+h1 {
+    color: RGB(28, 195, 124);
+    }
+
 .error {
     border: 1px solid red;
+    }
+
+.load_more_users.disable,
+.load_more_users.disable:hover {
+    background: none;
+    background-color: gray;
+    color: white;
+    text-shadow: none;
+    border: none;
+    animation: none;
+    }
+
+
+/*
+    Summary:
+        Jump To Top
+ */
+.jumpToTop {
+    display: none;
+    position: fixed;
+    top: 80%;
+    right: 1%;
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+    border-radius: 5px;
+    background: black;
+    transition: 2s;
+    z-index: 10;
+    }
+.jumpToTop__arrow {
+    border: solid white;
+    border-width: 0 5px 5px 0;
+    position: absolute;
+    top: 40%;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
+    height: 20%;
+    width: 20%;
+    }
+.jumpToTop__arrow_up {
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
     }

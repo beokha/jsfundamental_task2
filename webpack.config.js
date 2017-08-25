@@ -1,5 +1,6 @@
 var config = {
     entry: {
+        'site': './src/client/js/site.js',
         'index': './src/client/js/main.js',
         'user': './src/client/js/user.js'
     },

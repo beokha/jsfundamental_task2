@@ -14,11 +14,13 @@ var firebasedb = (function () {
     firebase.initializeApp(config);
 
     let obj = {};
-    obj.getAllUsersData = function () {
+    obj.alreadyLoadedCountOfUsers = 0;
+
+    obj.getFiveFirstUsersData = function (countOfUserLoadAtFirstTime) {
         let result = [],
             isEnded = false;
 
-        firebase.database().ref('users_data/').once('value').then(function (snapshot) {
+        firebase.database().ref('users_data/').limitToFirst(countOfUserLoadAtFirstTime).once('value').then(function (snapshot) {
             let childData,
                 index = 0;
 
@@ -27,27 +29,37 @@ var firebasedb = (function () {
                 main.render.renderIso(childData, index++);
             });
 
-        }).then(result => {
-            //console.log("All is good.");
-            //return main.render.renderIso;
-            //main.render.renderIso(result);
-/*            return function () {
-                console.log("In firebase function.")
-            }*/
-        }, error => {
-            //console.log("Bad.");
-            //return null;
+        }).then(() => {
+            obj.alreadyLoadedCountOfUsers = countOfUserLoadAtFirstTime;
         });
 
-        //return main.render.renderIso;
-        /*while(true) {
-            if(isEnded)
-                break;
-        }*/
     };
+
+    obj.loadMoreUsers = function (coutOfLoading) {
+
+        firebase.database().ref('users_data/').orderByKey()
+            .startAt(String(obj.alreadyLoadedCountOfUsers)).endAt(String(obj.alreadyLoadedCountOfUsers + coutOfLoading - 1))
+            .once('value').then(function (snapshot) {
+                let childData,
+                    index = obj.alreadyLoadedCountOfUsers;
+
+                if(snapshot.numChildren() == "0") {
+                    let btn_load_more = document.querySelector('.load_more_users');
+                    btn_load_more.innerHTML = "All data was loaded.";
+                    btn_load_more.classList.add('disable');
+                    btn_load_more.setAttribute('disabled', 'disabled');
+                }
+                snapshot.forEach(function(childSnapshot) {
+                    childData = childSnapshot.val();
+                    main.render.renderIso(childData, index++);
+                });
+
+        }).then(() => {
+            obj.alreadyLoadedCountOfUsers += coutOfLoading;
+        });
+    }
     
     obj.addNewUserSkill = function (userId, skills) {
-
         firebase.database().ref('users_data/' + userId + "/user_data/skills/").set(skills);
     }
 

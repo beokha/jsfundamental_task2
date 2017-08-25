@@ -1,5 +1,6 @@
 "use strict";
 import db from './firebase.js';
+import metrics from './helper.js';
 
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -8,11 +9,14 @@ document.addEventListener('DOMContentLoaded', function() {
         skill_frag = document.createDocumentFragment(),
         educations_block = document.getElementsByClassName('educations_block')[0],
         educations_frag = document.createDocumentFragment(),
+        current_user_position_nav = document.getElementsByClassName('current_user_position_educations')[0],
+        current_user_position_frag = document.createDocumentFragment(),
         // Data
         chosenUser = JSON.parse(localStorage.chosenUserLS),
         user_data = chosenUser.user_data,
         skills = user_data.skills,
-        educations = user_data.education;
+        educations = user_data.education,
+        burger_btn = document.querySelector('.burger-btn');
 
     // Change page title
     document.title = chosenUser.first_name + " " + chosenUser.last_name + " page";
@@ -39,9 +43,10 @@ document.addEventListener('DOMContentLoaded', function() {
         return a.date - b.date;
     })
     // Add user's education
-    educations.forEach((education) => {
+    educations.forEach((education, index) => {
 
         let education_div = document.createElement('div'),
+            education_anchor = document.createElement('a'),
             left_education_block= document.createElement('div'),
             leb_p = document.createElement('p'),
             leb_p_node = document.createTextNode(education.date),
@@ -49,10 +54,20 @@ document.addEventListener('DOMContentLoaded', function() {
             reb_header = document.createElement('header'),
             reb_header_node = document.createTextNode(education.title),
             reb_p = document.createElement('p'),
-            reb_p_node = document.createTextNode(education.someText);
+            reb_p_node = document.createTextNode(education.someText),
+            // For "current user position"
+            cp_li = document.createElement('li'),
+            cp_a = document.createElement('a'),
+            cp_a_node = document.createTextNode(education.date);
 
 
+        /*
+            Summary:
+                Data for education block
+         */
         education_div.className = "education";
+        education_anchor.name = "education_anchor_" + index
+        education_anchor.className = "current_user_location_anchor";
 
         // Left
         left_education_block.className = "left_education_block";
@@ -69,11 +84,50 @@ document.addEventListener('DOMContentLoaded', function() {
         reb_p.appendChild(reb_p_node);
         right_education_block.appendChild(reb_p);
 
+        education_div.appendChild(education_anchor);
         education_div.appendChild(left_education_block);
         education_div.appendChild(right_education_block);
         educations_frag.appendChild(education_div);
+
+        /*
+            Summary:
+                Data for current user position navigation
+         */
+        cp_a.href = "#" + "education_anchor_" + index;
+        cp_a.className = "education_anchor_" + index;
+        cp_a.appendChild(cp_a_node);
+        cp_li.appendChild(cp_a);
+        current_user_position_frag.appendChild(cp_li);
     });
     educations_block.appendChild(educations_frag);
+    current_user_position_nav.appendChild(current_user_position_frag);
+
+    /*
+        Summary:
+            Init logic for "current user position"
+     */
+    current_user_position.init();
+    /*
+        Summary:
+            Burger
+     */
+    burger_btn.addEventListener('click', function (e) {
+        let src,
+            asideNews = document.querySelector('.aside-news');
+
+        e = e || window.e;
+        src = e.target;
+
+        e.preventDefault();
+
+        if(asideNews.classList.contains('aside-news_active')) {
+            asideNews.classList.remove('aside-news_active');
+            src.classList.remove('burger-btn_active');
+        } else {
+            asideNews.classList.add('aside-news_active');
+            src.classList.add('burger-btn_active');
+        }
+    });
 });
 
 /*
@@ -142,4 +196,67 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
     }
+})();
+
+/*
+    Summary:
+        "Current user position"
+ */
+let current_user_position = (function () {
+    let obj = {},
+        anchors,
+        anchors_array = [];
+
+    obj.init = function() {
+        anchors = document.getElementsByClassName('current_user_location_anchor');
+        for(let i = 0, len = anchors.length; i < len; i += 1) {
+            let anchor_obj = {
+                anchor: anchors[i],
+                top: metrics.getOffset(anchors[i]).top
+            };
+            anchors_array.push(anchor_obj);
+        }
+
+        anchors_array.sort(function (a, b) {
+            return a.top - b.top
+        });
+    }
+
+
+    window.addEventListener('scroll', function () {
+        let pageYOffset = window.pageYOffset,
+            oldCurrentUserPosition = document.getElementsByClassName('current_user_position_list__a__locateHere')[0];
+
+        for(let i = 0, len = anchors_array.length; i < len; i += 1) {
+            if(anchors_array[i].top > pageYOffset) {
+
+                let anchor_name = anchors_array[i].anchor.name,
+                    newCurrentUserPosition = document.getElementsByClassName(anchor_name)[0];
+
+                oldCurrentUserPosition.classList.remove('current_user_position_list__a__locateHere');
+                newCurrentUserPosition.classList.add('current_user_position_list__a__locateHere');
+                return false;
+            }
+        }
+    });
+
+    let current_user_position_list = document.getElementsByClassName('current_user_position_list')[0];
+    current_user_position_list.addEventListener('click', function (e) {
+        let src,
+            oldCurrentUserPosition = document.getElementsByClassName('current_user_position_list__a__locateHere')[0],
+            newCurrentUserPosition;
+
+        e = e || window.e;
+        src = e.target;
+
+        if(src.nodeName.toLowerCase() !== "a") {
+            return;
+        }
+
+        newCurrentUserPosition = src;
+        oldCurrentUserPosition.classList.remove('current_user_position_list__a__locateHere');
+        newCurrentUserPosition.classList.add('current_user_position_list__a__locateHere');
+    });
+
+    return obj;
 })();

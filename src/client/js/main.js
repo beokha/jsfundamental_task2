@@ -3,9 +3,17 @@ import addIsotopeLogic from './isotope';
 import db from './firebase';
 
 document.addEventListener('DOMContentLoaded', function () {
-    let grid = document.getElementsByClassName('grid')[0];
+    let grid = document.getElementsByClassName('grid')[0],
+        countOfUserLoadAtFirstTime = 5,
+        load_more_users = document.querySelector('.load_more_users'),
+        countOfLoading = 5;
     // GET and Render all user data
-    db.getAllUsersData();
+    db.getFiveFirstUsersData(countOfUserLoadAtFirstTime);
+
+    // Load more users
+    load_more_users.addEventListener('click', function () {
+        db.loadMoreUsers(countOfLoading);
+    });
 
     // SET Handler onClick element
     grid.addEventListener('click', function (e) {
@@ -27,7 +35,8 @@ document.addEventListener('DOMContentLoaded', function () {
         localStorage.setItem("chosenUserIdLS", JSON.stringify(id));
         localStorage.setItem("chosenUserLS", JSON.stringify(users[id]));
         document.location.href = "./user.html";
-    })
+    });
+
 });
 
 
